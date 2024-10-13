@@ -9,7 +9,7 @@ import torch.optim as optim
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def train_gan(dataloader, num_epochs=50, save_interval=25, sample_interval=5, checkpoint_path="models/checkpoint.pth"):
+def train(dataloader, num_epochs=50, save_interval=25, sample_interval=5, checkpoint_path="models/checkpoint.pth"):
     # optimizers
     g_optimizer = optim.AdamW(generator.parameters(), lr=0.0001, betas=(0.9, 0.999))
     d_optimizer = optim.AdamW(discriminator.parameters(), lr=0.0001, betas=(0.9, 0.999))
