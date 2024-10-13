@@ -5,7 +5,7 @@ from generator import MSHAN
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def inference(input_image_path, batch_size=128, patch_size=64, model_path="models/checkpoint.pth", upscale_factor=2):
+def inference(input_image_path, batch_size=128, patch_size=64, upscale_factor=2, model_path="models/checkpoint.pth"):
     # Load the trained generator model
     generator = MSHAN()
     checkpoint = torch.load(model_path)
