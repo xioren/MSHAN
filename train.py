@@ -108,6 +108,6 @@ if __name__ == "__main__":
     
     try:
         # start training
-        train_gan(dataloader, num_epochs=100, save_interval=25, sample_interval=1)
+        train(dataloader, num_epochs=100, save_interval=25, sample_interval=1)
     except KeyboardInterrupt:
         pass
