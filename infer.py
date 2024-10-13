@@ -5,7 +5,7 @@ from generator import MSHAN
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def inference(input_image_path, batch_size=128, model_path="models/checkpoint.pth"):
+def inference(input_image_path, batch_size=128, patch_size=64, model_path="models/checkpoint.pth", upscale_factor=2):
     # Load the trained generator model
     generator = MSHAN()
     checkpoint = torch.load(model_path)
@@ -17,7 +17,7 @@ def inference(input_image_path, batch_size=128, model_path="models/checkpoint.pt
     image_tensor = load_and_transform_image(input_image_path).unsqueeze(0)
 
     # Chunk the image
-    chunks = extract_tensor_patches(image_tensor, patch_size=64)
+    chunks = extract_tensor_patches(image_tensor, patch_size=patch_size)
 
     # Process each chunk through the generator model
     processed_chunks = []
@@ -33,12 +33,12 @@ def inference(input_image_path, batch_size=128, model_path="models/checkpoint.pt
 
     # Reassemble processed chunks
     _, _, original_height, original_width = image_tensor.shape # Extract original dimensions
-    reassembled_image = recompile_pil_patches(processed_chunks, 2 * original_width, 2 * original_height, patch_size=128)
+    reassembled_image = recompile_pil_patches(processed_chunks, upscale_factor * original_width, upscale_factor * original_height, patch_size=patch_size*upscale_factor)
 
     # Create output path
     base, end, = os.path.split(input_image_path)
     fn, ext = os.path.splitext(end)
-    output_image_path = os.path.join(base, f"{fn}-2x.png")
+    output_image_path = os.path.join(base, f"{fn}-{upscale_factor}x.png")
 
     # Save the output image
     save_pil_image(reassembled_image, output_image_path)
