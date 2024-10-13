@@ -46,4 +46,4 @@ def inference(input_image_path, batch_size=128, patch_size=64, upscale_factor=2,
 
 
 if __name__ == "__main__":
-    inference("/path/to/image", batch_size=32)
+    inference("/path/to/image.ext", batch_size=32)
